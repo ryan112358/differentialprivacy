@@ -33,7 +33,7 @@ Here, \\\( \tilde{Q} \\\) are the noisy query answers, and \\\( \mathcal{S} \\\)
 
 If the queries \\\( Q \\\) are linear, then this optimization problem is convex, and hence can be solved in theory.  MWEM (CITE), for example, uses the multiplicative weights update rule to find an optimal distribution over the entire support of the data domain.  However, solving it directly is challenging in high-dimensional settings because the size of \\\( P \\\) is equal to the size of the domain, which grows exponentially with the dimensionality of the data and is often intractably large.  In most practical settings, writing down a single distribution over this domain is intractable, let alone optimizing over the space of all distributions. 
 
-### Private-PGM
+### Probabilistic Graphical Model
 
 The key observation of Private-PGM is that when \\\( Q \\\) has special structure, so does \\\( \hat{P} \\\).  In particular, if \\\( Q \\\) only depends on \\\( P \\\) through it's low-dimensional marginals, then one of the optimizers of Problem \ref{eq1} is \\\( P\_{\hat{\theta}} \\\), a graphical model with parameters \\\( \hat{\theta} \\\).  Problem \ref{eq1} typically has infinitely many solutions, and it turns out that the solution found by Private-PGM has maximum entropy among all solutions to the problem --- a very natural way to break ties among equally good solutions. Remarkably, these facts are true for any dataset --- they do not require the underlying data to be generated from a graphical model with the same structure.  For more information on this matter, please refer to Section 4.2 of [[MMS21]](https://arxiv.org/abs/2108.04978){:target="\_blank"}.
 
@@ -57,13 +57,13 @@ The size of the parameter vector increases with the number and size of the selec
 
 An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the optimal solution of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity. 
 
-### Generative Networks 
+### Generative Network 
 
 Among the iterative methods introduced by [Liu et al., 2021](https://arxiv.org/abs/2106.07153){:target="\_blank"} is GEM (Generative networks with the exponential mechanism), an approach inspired by generative adversarial networks. As part of their overall mechanism, Liu et al. propose representing any dataset as mixture of product distributions over attributes in the data domain. They implicitly encode such distributions using a generative neural network with a softmax layer. In concrete terms, given some Gaussian noise \\\( \mathbf{z} \sim \mathcal{N}(0, I) \\\), their **Generate** step outputs \\\( f_\theta(\mathbf{z}) \\\) where \\\( f \\\) is some feedforward neural network parametrized by \\\( \theta \\\). \\\( f_\theta(\mathbf{z}) \\\) represents a collection of marginal distributions for each individual attribute in the domain, which can be used to directly answer any k-way marginal query. Alternatively, one can sample directly from \\\( f_\theta(\mathbf{z}) \\\) if the goal is generate *real* synthetic data.
 
 Note that the size of \\\( \mathbf{z} \\\) can be arbitrarily large, meaning that this generative network approach can theoretically be scaled up to capture any distribution \\\( P \\\). Moreover, like in Aydore et al., 2021, Liu et al., 2021 show that one can achieve strong performance in practical settings even when \\\( \mathbf{z} \\\) is small, making such generative network approaches to scale in terms of both computation and memory. Howevever, as is commonly found in deep learning methods, this optimization problem is nonconvex.
 
-### NAME?
+### Mixture Distribution
 
 In a similar vein to GEM, Liu et al., 2021 also adapt RAP<sup>softmax</sup> from Aydore et al, 2021 by adding softmax function to RAP. In this way, RAP<sup>softmax</sup> also represents datasets as a mixture of product distributions, rather than as a synthetic dataset in the relaxed data domain proposed by Aydore et al, 2021. In a revised version of their paper, Aydore e. al., 2021 introduce RAP Sparsemax, which instead applies the [sparsemax](https://arxiv.org/abs/1602.02068) function. In some sense, RAP Sparsemax is similar to GEM and RAP<sup>softmax</sup> in that one can interpret the output of RAP Sparsemax as also being a mixture of product distributions, where the marginal probabilities for each attribute are sparse. 
 
@@ -221,7 +221,7 @@ This example shows that the quality of the synthetic data crucially depends on t
 
 ### Substituting PGM with other methods
 
-Relaxed Tabular was recently added to the Private-PGM repository under the name ```MixtureInference```.  It can be used as a drop-in replacement for ```FactoredInference``` in situations where Private-PGM fails to scale.  
+Mixture Distribution was recently added to the Private-PGM repository under the name ```MixtureInference```.  It can be used as a drop-in replacement for ```FactoredInference``` in situations where Private-PGM fails to scale.  
 
 {% highlight python %}
 >>> from mbi import MixtureInference
@@ -237,7 +237,7 @@ APPGM was recently added to the Private-PGM repository under the name ```LocalIn
 >>> model = engine.estimate(measurements)
 {% endhighlight %}
 
-We plan on adding the Generative Network approach to Private-PGM in the coming weeks.
+We plan on adding the Relaxed Tabular and Generative Network approaches to Private-PGM in the coming weeks.
 
 # Coming up Next
 
