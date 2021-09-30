@@ -55,7 +55,7 @@ The size of the parameter vector increases with the number and size of the selec
 
 ### Relaxed Tabular
 
-An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the true minimizer of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity. 
+An alternative approach was proposed in the recent [RAP](https://arxiv.org/abs/2103.06641){:target="\_blank"} paper.  The key idea is to restrict attention to "pseudo-distributions" that can be represented in a relaxed tabular format.  The format is similar to the one-hot encoding of a discrete dataset, although the entries need not be \\\( 0 \\\) or \\\( 1 \\\), which enables gradient-based optimization to be performed on the cells in this table.  The number of rows is a tunable knob that can be set to trade off expressive capacity with computational efficiency.  With a sufficiently large knob size, the optimal solution of the original problem can be expressed in this way, but there is no guarantee that gradient-based optimization will converge to it because this representation introduces non-convexity. 
 
 ### Generative Networks 
 
@@ -65,7 +65,7 @@ Note that the size of \\\( \mathbf{z} \\\) can be arbitrarily large, meaning tha
 
 ### NAME?
 
-In a similar vein to GEM, Liu et al., 2021 also adapt RAP<sup>softmax</sup> from RAP by adding a softmax layer. In this way, RAP<sup>softmax</sup> also represents datasets as a mixtures of product distributions, rather a synthetid dataset in Aydore et al, 2021's proposed relaxed data domain. In a revised version of their paper, Aydore e. al., 2021 introduce RAP Sparsemax, which instead applies the [sparsemax](https://arxiv.org/abs/1602.02068) function. In some sense, RAP Sparsemax is similar to GEM and RAP<sup>softmax</sup> in that one can interpret the output of RAP Sparsemax as also being a mixture of product distributions, where the marginal probabilities are sparse. 
+In a similar vein to GEM, Liu et al., 2021 also adapt RAP<sup>softmax</sup> from Aydore et al, 2021 by adding softmax function to RAP. In this way, RAP<sup>softmax</sup> also represents datasets as a mixture of product distributions, rather than as a synthetic dataset in the relaxed data domain proposed by Aydore et al, 2021. In a revised version of their paper, Aydore e. al., 2021 introduce RAP Sparsemax, which instead applies the [sparsemax](https://arxiv.org/abs/1602.02068) function. In some sense, RAP Sparsemax is similar to GEM and RAP<sup>softmax</sup> in that one can interpret the output of RAP Sparsemax as also being a mixture of product distributions, where the marginal probabilities for each attribute are sparse. 
 
 ### Local Consistency
 
