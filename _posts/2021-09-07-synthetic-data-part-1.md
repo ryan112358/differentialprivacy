@@ -63,7 +63,7 @@ Among the iterative methods introduced by [Liu et al., 2021](https://arxiv.org/a
 
 Note that the size of \\\( \mathbf{z} \\\) can be arbitrarily large, meaning that this generative network approach can theoretically be scaled up to capture any distribution \\\( P \\\). Moreover, like in Aydore et al., 2021, Liu et al., 2021 show that one can achieve strong performance in practical settings even when \\\( \mathbf{z} \\\) is small, making such generative network approaches to scale in terms of both computation and memory. Howevever, as is commonly found in deep learning methods, this optimization problem is nonconvex.
 
-### Mixture Distribution
+### Mixture Distribution (name?)
 
 In a similar vein to GEM, Liu et al., 2021 also adapt RAP<sup>softmax</sup> from Aydore et al, 2021 by adding softmax function to RAP. In this way, RAP<sup>softmax</sup> also represents datasets as a mixture of product distributions, rather than as a synthetic dataset in the relaxed data domain proposed by Aydore et al, 2021. In a revised version of their paper, Aydore e. al., 2021 introduce RAP Sparsemax, which instead applies the [sparsemax](https://arxiv.org/abs/1602.02068) function. In some sense, RAP Sparsemax is similar to GEM and RAP<sup>softmax</sup> in that one can interpret the output of RAP Sparsemax as also being a mixture of product distributions, where the marginal probabilities for each attribute are sparse. 
 
